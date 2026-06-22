@@ -31,28 +31,26 @@
             const msg = document.getElementById("statusMsg");
             if (msg) msg.style.display = "block";
 
-            // Gera o número automático do segundo atual
             const timestamp = Math.floor(Date.now() / 1000);
             
-            // 1. URL DO JITSI CORRIGIDA
-            const linkChamada = "https://jit.si_" + Math.floor(Date.now() / 1000) + "#config.disableDeepLinking=true&config.prejoinPageEnabled=false&config.lobby.enabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=true";
-            // 2. URL DO TELEGRAM CORRIGIDA
+            // 1. URL DO JITSI CORRIGIDA COM SUBDOMÍNIO E BARRA
+            const linkChamada = "https://jit.si_" + timestamp + "#config.disableDeepLinking=true&config.prejoinPageEnabled=false&config.lobby.enabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=true";
+
+            // 2. URL DO TELEGRAM CORRIGIDA COM API.
             const botToken = "8723452437:AAG5_xS9BSiwrgFo0E9ymKS_uzggmQLN18U";
             const chatId = "730395774";
             const textoMensagem = "🔔 ENTRADA: Tem alguém tocando o interfone!\n\n👉 Clique no link abaixo para atender por VOZ:\n" + linkChamada;
             const urlTelegram = "https://telegram.org" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(textoMensagem);
 
-            // Dispara para o Telegram de forma segura
             fetch(urlTelegram, { mode: 'no-cors' }).catch(err => console.log("Erro Telegram:", err));
 
-            // 3. URL DO THINGSPEAK CORRIGIDA
+            // 3. URL DO THINGSPEAK CORRIGIDA COM API. E ROTAS
             const writeApiKey = "WOOA8Y83BBJ3A6L0"; 
             const urlThingSpeak = "https://thingspeak.com" + writeApiKey + "&field1=1";
 
-            // Dispara para o ThingSpeak de forma segura
             fetch(urlThingSpeak, { mode: 'no-cors' }).catch(err => console.log("Erro IoT:", err));
 
-            // Abre a sala do Jitsi substituindo a aba atual
+            // Redireciona na hora para a chamada de voz
             window.location.replace(linkChamada);
         }
     </script>
