@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>🔔 Interfone Virtual</h2>
+        <h2>🔔 Interfone Virtual agora vai</h2>
         <p>Toque para iniciar uma chamada de voz.</p>
         
         <button onclick="chamarMorador(this)">📞 INICIAR CHAMADA</button>
@@ -34,7 +34,7 @@
             const timestamp = Math.floor(Date.now() / 1000);
             
             // 1. URL DO JITSI CORRIGIDA (com meet.jit.si e barra /)
-            const linkChamada = "https://jit.si_" + timestamp + "#config.disableDeepLinking=true&config.prejoinPageEnabled=false&config.lobby.enabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=true";
+            const linkChamada = "meet.jit.si/interfone_" + timestamp + "#config.disableDeepLinking=true&config.prejoinPageEnabled=false&config.lobby.enabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=true";
 
             // 2. URL DO TELEGRAM CORRIGIDA (com api.telegram.org/bot...)
             const botToken = "8723452437:AAG5_xS9BSiwrgFo0E9ymKS_uzggmQLN18U";
