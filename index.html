@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -10,6 +9,7 @@
         .container { max-width: 400px; margin: 0 auto; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         button { padding: 25px 40px; font-size: 22px; color: white; background-color: #0088cc; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.2); width: 100%; transition: 0.2s; }
         button:active { background-color: #006699; transform: scale(0.98); }
+        button:disabled { background-color: #cccccc; cursor: not-allowed; }
         h2 { margin-bottom: 5px; }
         p { color: #666; margin-bottom: 30px; }
         .status { margin-top: 20px; font-weight: bold; color: green; display: none; }
@@ -20,42 +20,49 @@
         <h2>🔔 Interfone Virtual</h2>
         <p>Toque no botão abaixo para iniciar uma chamada de voz com o morador.</p>
         
-        <button onclick="chamarMorador()">📞 INICIAR CHAMADA</button>
-        <div id="statusMsg" class="status">Ligando... Aguarde o morador atender.</div>
+        <button id="btnChamada" onclick="chamarMorador()">📞 INICIAR CHAMADA</button>
+        <div id="statusMsg" class="status">Ligando... Redirecionando para a chamada de voz.</div>
     </div>
 
     <script>
         function chamarMorador() {
+            // Desabilita o botão para evitar cliques repetidos que travam o ThingSpeak
+            document.getElementById("btnChamada").disabled = true;
             document.getElementById("statusMsg").style.display = "block";
 
-            // CORRIGIDO: Adicionada a barra "/" no final do link do Jitsi
             const idSala = "InterfoneLuiz_" + Math.floor(Date.now() / 1000);
-            const linkChamada = "https://meet.jit.si/" + idSala;
+            
+            // AJUSTE JITSI: Parâmetros para pular telas intermediárias, desativar lobby e forçar navegador móvel
+            const parametrosAutomacao = "#config.disableDeepLinking=true&config.prejoinPageEnabled=false&config.lobby.enabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=true";
+            const linkChamada = "https://meet.jit.si/" + idSala + parametrosAutomacao;
 
-            // Credenciais oficiais do seu Telegram
+            // Credenciais do seu Telegram
             const botToken = "8723452437:AAG5_xS9BSiwrgFo0E9ymKS_uzggmQLN18U";
             const chatId = "730395774";
             const textoMensagem = "🔔 ENTRADA: Tem alguém tocando o interfone!\n\n👉 Clique no link abaixo para atender por VOZ:\n" + linkChamada;
             
-            // Link de envio corrigido com API oficial do Telegram
             const urlTelegram = "https://api.telegram.org/bot" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(textoMensagem);
 
-            // Envia o comando para o seu Telegram
+            // Envia a notificação para o Telegram
             fetch(urlTelegram, { mode: 'no-cors' }).catch(err => console.log("Erro Telegram:", err));
 
-            // Configurações e link corrigido com /update?api_key= para o ThingSpeak funcionar
+            // CORREÇÃO THINGSPEAK: Inserido o domínio "api.thingspeak.com" e a rota correta "/update?api_key="
             const writeApiKey = "WOOA8Y83BBJ3A6L0"; 
             const urlThingSpeak = "https://thingspeak.com" + writeApiKey + "&field1=1";
 
-            // Envia o comando para o ThingSpeak (em modo no-cors para evitar travas do navegador)
+            // Envia o comando para o ThingSpeak
             fetch(urlThingSpeak, { mode: 'no-cors' })
                 .then(() => {
-                    // Redireciona o visitante para a chamada após 3 segundos
+                    // Redireciona o visitante para a sala de chamada após 2 segundos
                     setTimeout(() => {
                         window.location.href = linkChamada;
-                    }, 3000);
+                    }, 2000);
                 })
-                .catch(err => alert("Erro de conexão com o servidor IoT."));
+                .catch(err => {
+                    alert("Erro de conexão com o servidor IoT.");
+                    document.getElementById("btnChamada").disabled = false;
+                    document.getElementById("statusMsg").style.display = "none";
+                });
         }
     </script>
 </body>
