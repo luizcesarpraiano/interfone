@@ -36,7 +36,9 @@
             const parametrosAutomacao = "#config.disableDeepLinking=true&config.prejoinPageEnabled=false&config.lobby.enabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=true";
             
             // BARRA INTERNA CORRIGIDA AQUI:
-            const linkChamada = "https://jit.si" + idSala + parametrosAutomacao;
+            // Escrevendo o link completo de forma direta para evitar qualquer erro de soma de strings
+            const linkChamada = "https://jit.si_" + Math.floor(Date.now() / 1000) + "#config.disableDeepLinking=true&config.prejoinPageEnabled=false&config.lobby.enabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=true";
+
 
             // Telegram
             const botToken = "8723452437:AAG5_xS9BSiwrgFo0E9ymKS_uzggmQLN18U";
