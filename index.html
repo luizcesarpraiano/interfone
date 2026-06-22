@@ -17,8 +17,8 @@
 </head>
 <body>
     <div class="container">
-        <h2>interfone Virtual</h2>
-        <p>Toque para iniciar a chamada de voz.</p>
+        <h2>🔔 Interfone Virtual</h2>
+        <p>Toque no botão abaixo para iniciar uma chamada de voz com o morador.</p>
         
         <button onclick="chamarMorador(this)">📞 INICIAR CHAMADA</button>
         <div id="statusMsg" class="status">Ligando... Abrindo chamada de voz.</div>
@@ -31,28 +31,29 @@
             const msg = document.getElementById("statusMsg");
             if (msg) msg.style.display = "block";
 
-            // Gera o ID numérico único baseado no tempo
+            // Gera o número automático do segundo atual
             const timestamp = Math.floor(Date.now() / 1000);
             
-            // 1. URL DO JITSI CORRIGIDA (Com meet.jit.si/ e os parâmetros corretos de automação)
-            // O sistema preenche o 'meet.jit.si/', o nome fixo, o número automático e as configurações tudo junto:
-            const linkChamada = `https://jit.si{Math.floor(Date.now() / 1000)}#config.disableDeepLinking=true&config.prejoinPageEnabled=false&config.lobby.enabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=true`;
+            // 1. URL DO JITSI CORRIGIDA
+            const linkChamada = "https://jit.si_" + timestamp + "#config.disableDeepLinking=true&config.prejoinPageEnabled=false&config.lobby.enabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=true";
 
-            // 2. URL DO TELEGRAM CORRIGIDA (Com api.telegram.org/bot)
+            // 2. URL DO TELEGRAM CORRIGIDA
             const botToken = "8723452437:AAG5_xS9BSiwrgFo0E9ymKS_uzggmQLN18U";
             const chatId = "730395774";
             const textoMensagem = "🔔 ENTRADA: Tem alguém tocando o interfone!\n\n👉 Clique no link abaixo para atender por VOZ:\n" + linkChamada;
             const urlTelegram = "https://telegram.org" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(textoMensagem);
 
-            fetch(urlTelegram, { mode: 'no-cors' }).catch(err => console.log(err));
+            // Dispara para o Telegram de forma segura
+            fetch(urlTelegram, { mode: 'no-cors' }).catch(err => console.log("Erro Telegram:", err));
 
-            // 3. URL DO THINGSPEAK CORRIGIDA (Com ://thingspeak.com)
+            // 3. URL DO THINGSPEAK CORRIGIDA
             const writeApiKey = "WOOA8Y83BBJ3A6L0"; 
-            const urlThingSpeak = "https://://thingspeak.com" + writeApiKey + "&field1=1";
+            const urlThingSpeak = "https://thingspeak.com" + writeApiKey + "&field1=1";
 
-            fetch(urlThingSpeak, { mode: 'no-cors' }).catch(err => console.log(err));
+            // Dispara para o ThingSpeak de forma segura
+            fetch(urlThingSpeak, { mode: 'no-cors' }).catch(err => console.log("Erro IoT:", err));
 
-            // Redirecionamento instantâneo para a chamada de voz
+            // Abre a sala do Jitsi substituindo a aba atual
             window.location.replace(linkChamada);
         }
     </script>
