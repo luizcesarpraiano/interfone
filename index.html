@@ -47,6 +47,7 @@
             // 3. URL DO THINGSPEAK CORRIGIDA: Adicionado a rota completa de atualização (/update?api_key=)
             const writeApiKey = "WOOA8Y83BBJ3A6L0"; 
             const urlThingSpeak = "https://thingspeak.com" + writeApiKey + "&field1=1";
+            const urlThingSpeak = "https://thingspeak.com/update?api_key=" + writeApiKey  + "&field1=1";
 
             fetch(urlThingSpeak, { mode: 'no-cors' }).catch(err => console.log("Erro IoT:", err));
 
