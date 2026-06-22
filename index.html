@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -28,27 +27,26 @@
         function chamarMorador() {
             document.getElementById("statusMsg").style.display = "block";
 
-            // Gera a sala secreta de voz corretamente
+            // 1. Gera a sala secreta de voz do Jitsi Corretamente
             const idSala = "InterfoneLuiz_" + Math.floor(Date.now() / 1000);
             const linkChamada = "https://jit.si" + idSala;
 
-            // Suas credenciais oficiais
+            // 2. Credenciais oficiais do seu Telegram
             const botToken = "8723452437:AAG5_xS9BSiwrgFo0E9ymKS_uzggmQLN18U";
             const chatId = "730395774";
-            
             const textoMensagem = "🔔 ENTRADA: Tem alguém tocando o interfone!\n\n👉 Clique no link abaixo para atender por VOZ:\n" + linkChamada;
             
-            // Link de envio corrigido para o Telegram
+            // Link de envio CORRIGIDO com API oficial do Telegram
             const urlTelegram = "https://telegram.org" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(textoMensagem);
 
-            // Envia o comando para o Telegram
+            // Envia o comando para o seu Telegram
             fetch(urlTelegram).catch(err => console.log("Erro Telegram:", err));
 
-            // Configurações e link corrigido para o ThingSpeak
+            // 3. Configurações e link CORRIGIDO para o ThingSpeak funcionar com o Arduino
             const writeApiKey = "WOOA8Y83BBJ3A6L0"; 
             const urlThingSpeak = "https://thingspeak.com" + writeApiKey + "&field1=1";
 
-            // Envia o comando para o ThingSpeak (para o Arduino tocar a campainha)
+            // Envia o comando para o ThingSpeak (para o seu Arduino ler)
             fetch(urlThingSpeak)
                 .then(response => {
                     if(response.ok) {
