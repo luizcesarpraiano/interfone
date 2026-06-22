@@ -51,13 +51,14 @@
             const urlThingSpeak = "https://thingspeak.com" + writeApiKey + "&field1=1";
 
             // Envia o comando para o ThingSpeak
-            fetch(urlThingSpeak, { mode: 'no-cors' })
-                .then(() => {
-                    // Redireciona o visitante para a sala de chamada após 2 segundos
-                    setTimeout(() => {
-                        window.location.href = linkChamada;
-                    }, 2000);
-                })
+            // Envia o comando para o ThingSpeak (modo no-cors envia o sinal, mas não lê a resposta)
+fetch(urlThingSpeak, { mode: 'no-cors' });
+
+// Redireciona o visitante de forma direta e independente após 2 segundos
+setTimeout(() => {
+    window.location.href = linkChamada;
+}, 2000);
+
                 .catch(err => {
                     alert("Erro de conexão com o servidor IoT.");
                     document.getElementById("btnChamada").disabled = false;
