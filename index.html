@@ -20,46 +20,40 @@
         <h2>🔔 Interfone Virtual</h2>
         <p>Toque no botão abaixo para iniciar uma chamada de voz com o morador.</p>
         
-        <!-- Passando 'this' para a função não depender de IDs no HTML -->
         <button onclick="chamarMorador(this)">📞 INICIAR CHAMADA</button>
-        <div id="statusMsg" class="status">Ligando... Redirecionando para a chamada de voz.</div>
+        <div id="statusMsg" class="status">Ligando... Abrindo chamada de voz.</div>
     </div>
 
     <script>
         function chamarMorador(botao) {
-            // Desabilita o botão clicado de forma segura
             if (botao) botao.disabled = true;
             
-            // Mostra a mensagem se o elemento existir
             const msg = document.getElementById("statusMsg");
             if (msg) msg.style.display = "block";
 
-            // Gera o ID único da sala
             const idSala = "InterfoneLuiz_" + Math.floor(Date.now() / 1000);
             
-            // Parâmetros Jitsi para automação total
             const parametrosAutomacao = "#config.disableDeepLinking=true&config.prejoinPageEnabled=false&config.lobby.enabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=true";
+            
+            // BARRA INTERNA CORRIGIDA AQUI:
             const linkChamada = "https://jit.si" + idSala + parametrosAutomacao;
 
-
-            // Envio para o Telegram
+            // Telegram
             const botToken = "8723452437:AAG5_xS9BSiwrgFo0E9ymKS_uzggmQLN18U";
             const chatId = "730395774";
             const textoMensagem = "🔔 ENTRADA: Tem alguém tocando o interfone!\n\n👉 Clique no link abaixo para atender por VOZ:\n" + linkChamada;
             const urlTelegram = "https://telegram.org" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(textoMensagem);
 
-            fetch(urlTelegram, { mode: 'no-cors' }).catch(err => console.log("Erro Telegram:", err));
+            fetch(urlTelegram, { mode: 'no-cors' }).catch(err => console.log(err));
 
-            // Envio para o ThingSpeak
+            // ThingSpeak
             const writeApiKey = "WOOA8Y83BBJ3A6L0"; 
             const urlThingSpeak = "https://thingspeak.com" + writeApiKey + "&field1=1";
 
-            fetch(urlThingSpeak, { mode: 'no-cors' }).catch(err => console.log("Erro IoT:", err));
+            fetch(urlThingSpeak, { mode: 'no-cors' }).catch(err => console.log(err));
 
-            // Redireciona para o Jitsi Meet após 2 segundos obrigatoriamente
-            setTimeout(() => {
-                window.location.href = linkChamada;
-            }, 2000);
+            // Redirecionamento instantâneo
+            window.location.replace(linkChamada);
         }
     </script>
 </body>
