@@ -51,7 +51,7 @@
             fetch(urlThingSpeak, { mode: 'no-cors' }).catch(err => console.log("Erro IoT:", err));
 
             // Redireciona na hora para a chamada de voz
-            window.location.replace(linkChamada);
+            window.location.href = "https://jit.si_" + idChamada;
         }
     </script>
 </body>
