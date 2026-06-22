@@ -25,39 +25,38 @@
 
     <script>
         function chamarMorador() {
-            // Mostra mensagem de aguarde na tela do visitante
             document.getElementById("statusMsg").style.display = "block";
 
-            // Gera um ID de sala único usando o timestamp atual para ninguém invadir a conversa
+            // Gera a sala secreta de voz corretamente
             const idSala = "InterfoneLuiz_" + Math.floor(Date.now() / 1000);
-            const linkChamada = https://jit.si{idSala};
+            const linkChamada = "https://jit.si" + idSala;
 
-            // 1. Configurações do seu Telegram
+            // Suas credenciais oficiais
             const botToken = "8723452437:AAG5_xS9BSiwrgFo0E9ymKS_uzggmQLN18U";
             const chatId = "730395774";
             
-            // Texto da mensagem que inclui o link para você clicar e atender
-            const textoMensagem = 🔔 ENTRADA: Tem alguém tocando o interfone!\n\n👉 Clique no link abaixo para atender por VOZ:\n${linkChamada};
-            const urlTelegram = https://telegram.org{botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(textoMensagem)};
+            const textoMensagem = "🔔 ENTRADA: Tem alguém tocando o interfone!\n\n👉 Clique no link abaixo para atender por VOZ:\n" + linkChamada;
+            
+            // Link de envio corrigido para o Telegram
+            const urlTelegram = "https://telegram.org" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(textoMensagem);
 
-            // 2. Configurações do seu ThingSpeak (INSIRA SUA CHAVE ABAIXO)
+            // Envia o comando para o Telegram
+            fetch(urlTelegram).catch(err => console.log("Erro Telegram:", err));
+
+            // Configurações e link corrigido para o ThingSpeak
             const writeApiKey = "WOOA8Y83BBJ3A6L0"; 
-            const urlThingSpeak = https://thingspeak.com{writeApiKey}&field1=1;
+            const urlThingSpeak = "https://thingspeak.com" + writeApiKey + "&field1=1";
 
-            // Envia o alerta com link de voz para o seu Telegram
-            fetch(urlTelegram)
-                .catch(err => console.log("Erro Telegram:", err));
-
-            // Envia o comando para o ThingSpeak (para o Arduino tocar a campainha física)
+            // Envia o comando para o ThingSpeak (para o Arduino tocar a campainha)
             fetch(urlThingSpeak)
                 .then(response => {
                     if(response.ok) {
-                        // Redireciona o visitante automaticamente para a sala de conversa após 3 segundos
+                        // Redireciona o visitante para a chamada após 3 segundos
                         setTimeout(() => {
                             window.location.href = linkChamada;
                         }, 3000);
                     } else {
-                        alert("Erro ao acionar campainha, mas a notificação foi enviada.");
+                        alert("Erro ao acionar campainha física.");
                     }
                 })
                 .catch(err => alert("Erro de conexão com o servidor IoT."));
