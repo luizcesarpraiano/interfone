@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>🔔 Interfone Virtual</h2>
+        <h2>🔔 Interfone Virtual luiz</h2>
         <p>Toque para iniciar uma chamada de voz.</p>
         
         <button onclick="chamarMorador(this)">📞 INICIAR CHAMADA</button>
@@ -50,7 +50,7 @@
             fetch(urlThingSpeak, { mode: 'no-cors' }).catch(err => console.log("Erro IoT:", err));
 
             // 4. REDIRECIONAMENTO CORRIGIDO: Corrigido o nome da variável de "idChamada" para "linkChamada"
-            window.location.href = linkChamada;
+            window.location.href = "https://jit.si_" + idChamada;
         }
     </script>
 </body>
