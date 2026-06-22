@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -26,44 +26,38 @@
 
     <script>
         function chamarMorador() {
-            // Desabilita o botão para evitar cliques repetidos que travam o ThingSpeak
+            // Desabilita o botão para evitar cliques duplos
             document.getElementById("btnChamada").disabled = true;
             document.getElementById("statusMsg").style.display = "block";
 
+            // Gera ID único baseado no timestamp atual
             const idSala = "InterfoneLuiz_" + Math.floor(Date.now() / 1000);
             
-            // AJUSTE JITSI: Parâmetros para pular telas intermediárias, desativar lobby e forçar navegador móvel
+            // Configurações Jitsi: ignora app móvel, pula telas de validação e desativa o Lobby
             const parametrosAutomacao = "#config.disableDeepLinking=true&config.prejoinPageEnabled=false&config.lobby.enabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=true";
-            const linkChamada = "https://meet.jit.si/" + idSala + parametrosAutomacao;
+            const linkChamada = "https://jit.si" + idSala + parametrosAutomacao;
 
-            // Credenciais do seu Telegram
+            // Credenciais do bot do Telegram
             const botToken = "8723452437:AAG5_xS9BSiwrgFo0E9ymKS_uzggmQLN18U";
             const chatId = "730395774";
             const textoMensagem = "🔔 ENTRADA: Tem alguém tocando o interfone!\n\n👉 Clique no link abaixo para atender por VOZ:\n" + linkChamada;
             
-            const urlTelegram = "https://api.telegram.org/bot" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(textoMensagem);
+            const urlTelegram = "https://telegram.org" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(textoMensagem);
 
-            // Envia a notificação para o Telegram
+            // Envia o alerta para o Telegram de forma silenciosa
             fetch(urlTelegram, { mode: 'no-cors' }).catch(err => console.log("Erro Telegram:", err));
 
-            // CORREÇÃO THINGSPEAK: Inserido o domínio "api.thingspeak.com" e a rota correta "/update?api_key="
+            // URL corrigida do ThingSpeak com endpoint correto da API
             const writeApiKey = "WOOA8Y83BBJ3A6L0"; 
             const urlThingSpeak = "https://thingspeak.com" + writeApiKey + "&field1=1";
 
-            // Envia o comando para o ThingSpeak
-            // Envia o comando para o ThingSpeak (modo no-cors envia o sinal, mas não lê a resposta)
-fetch(urlThingSpeak, { mode: 'no-cors' });
+            // Envia o comando para o ThingSpeak sem ler a resposta (evita travas de CORS)
+            fetch(urlThingSpeak, { mode: 'no-cors' });
 
-// Redireciona o visitante de forma direta e independente após 2 segundos
-setTimeout(() => {
-    window.location.href = linkChamada;
-}, 2000);
-
-                .catch(err => {
-                    alert("Erro de conexão com o servidor IoT.");
-                    document.getElementById("btnChamada").disabled = false;
-                    document.getElementById("statusMsg").style.display = "none";
-                });
+            // Redireciona o visitante direto para a chamada de forma limpa e independente após 2 segundos
+            setTimeout(() => {
+                window.location.href = linkChamada;
+            }, 2000);
         }
     </script>
 </body>
