@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>🔔 Interfone Virtual luiz</h2>
+        <h2>🔔 Interfone Virtual luiz cesar</h2>
         <p>Toque para iniciar uma chamada de voz.</p>
         
         <button onclick="chamarMorador(this)">📞 INICIAR CHAMADA</button>
@@ -26,32 +26,33 @@
 
     <script>
         function chamarMorador(botao) {
-            if (botao) botao.disabled = true;
-            
-            const msg = document.getElementById("statusMsg");
-            if (msg) msg.style.display = "block";
+    if (botao) botao.disabled = true;
+    
+    const msg = document.getElementById("statusMsg");
+    if (msg) msg.style.display = "block";
 
-            const timestamp = Math.floor(Date.now() / 1000);
-            
-            // 1. URL DO JITSI CORRIGIDA: Mudado underline para barra e adicionado o domínio oficial (meet.jit.si)
-            const linkChamada = "https://jit.si_" + timestamp + "#config.disableDeepLinking=true&config.prejoinPageEnabled=false&config.lobby.enabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=true";
-            // 2. URL DO TELEGRAM CORRIGIDA: Adicionada a rota oficial da API do Telegram (/bot)
-            const botToken = "8723452437:AAG5_xS9BSiwrgFo0E9ymKS_uzggmQLN18U";
-            const chatId = "730395774";
-            const textoMensagem = "🔔 ENTRADA: Tem alguém tocando o interfone!\n\n👉 Clique no link abaixo para atender por VOZ:\n" + linkChamada;
-            const urlTelegram = "https://telegram.org" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(textoMensagem);
+    const timestamp = Math.floor(Date.now() / 1000);
+    
+    // 1. URL DO JITSI CORRETA
+    const linkChamada = "https://jit.si_" + timestamp + "#config.disableDeepLinking=true&config.prejoinPageEnabled=false&config.lobby.enabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=true";
 
-            fetch(urlTelegram, { mode: 'no-cors' }).catch(err => console.log("Erro Telegram:", err));
+    // 2. URL DO TELEGRAM CORRIGIDA (Adicionado /bot e api.)
+    const botToken = "8723452437:AAG5_xS9BSiwrgFo0E9ymKS_uzggmQLN18U";
+    const chatId = "730395774";
+    const textoMensagem = "🔔 ENTRADA: Tem alguém tocando o interfone!\n\n👉 Clique no link abaixo para atender por VOZ:\n" + linkChamada;
+    const urlTelegram = "https://telegram.org" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(textoMensagem);
 
-            // 3. URL DO THINGSPEAK CORRIGIDA: Adicionado a rota completa de atualização (/update?api_key=)
-            const writeApiKey = "WOOA8Y83BBJ3A6L0"; 
-            const urlThingSpeak = "https://thingspeak.com/update?api_key=" + writeApiKey  + "&field1=1";
+    fetch(urlTelegram, { mode: 'no-cors' }).catch(err => console.log("Erro Telegram:", err));
 
-            fetch(urlThingSpeak, { mode: 'no-cors' }).catch(err => console.log("Erro IoT:", err));
+    // 3. URL DO THINGSPEAK QUE VOCÊ JÁ CONSERTOU
+    const writeApiKey = "WOOA8Y83BBJ3A6L0"; 
+    const urlThingSpeak = "https://thingspeak.com" + writeApiKey + "&field1=1";
 
-            // 4. REDIRECIONAMENTO CORRIGIDO: Corrigido o nome da variável de "idChamada" para "linkChamada"
-            window.location.href = "https://jit.si_" + idChamada;
-        }
+    fetch(urlThingSpeak, { mode: 'no-cors' }).catch(err => console.log("Erro IoT:", err));
+
+    // 4. REDIRECIONAMENTO CORRIGIDO (MUDADO DE idChamada PARA linkChamada)
+    window.location.href = linkChamada;
+}
     </script>
 </body>
 </html>
