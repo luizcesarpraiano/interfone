@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>🔔 Interfone Virtual </h2>
+        <h2>🔔 Interfone Virtual luiz </h2>
         <p>Toque para iniciar uma chamada de voz.</p>
         
         <button onclick="chamarMorador(this)">📞 INICIAR CHAMADA</button>
@@ -40,7 +40,7 @@
             const botToken = "8723452437:AAG5_xS9BSiwrgFo0E9ymKS_uzggmQLN18U";
             const chatId = "730395774";
             const textoMensagem = "🔔 ENTRADA: Tem alguém tocando o interfone!\n\n👉 Clique no link abaixo para atender por VOZ:\n" + linkChamada;
-            const urlTelegram = "https://telegram.org" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(textoMensagem);
+            const urlTelegram = "https://api.telegram.org/bot" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(textoMensagem);
 
             fetch(urlTelegram, { mode: 'no-cors' }).catch(err => console.log("Erro Telegram:", err));
 
