@@ -35,8 +35,7 @@
             const timestamp = Math.floor(Date.now() / 1000);
             
             // 1. URL DO JITSI CORRIGIDA
-            const linkChamada = "https://jit.si_" + timestamp + "#config.disableDeepLinking=true&config.prejoinPageEnabled=false&config.lobby.enabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=true";
-
+            const linkChamada = "https://jit.si_" + Math.floor(Date.now() / 1000) + "#config.disableDeepLinking=true&config.prejoinPageEnabled=false&config.lobby.enabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=true";
             // 2. URL DO TELEGRAM CORRIGIDA
             const botToken = "8723452437:AAG5_xS9BSiwrgFo0E9ymKS_uzggmQLN18U";
             const chatId = "730395774";
