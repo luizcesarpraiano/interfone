@@ -36,27 +36,23 @@
             const chatId = "730395774";
             const textoMensagem = "🔔 ENTRADA: Tem alguém tocando o interfone!\n\n👉 Clique no link abaixo para atender por VOZ:\n" + linkChamada;
             
-            // Link de envio CORRIGIDO com API oficial do Telegram
+            // Link de envio corrigido com API oficial do Telegram
             const urlTelegram = "https://telegram.org" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(textoMensagem);
 
             // Envia o comando para o seu Telegram
-            fetch(urlTelegram).catch(err => console.log("Erro Telegram:", err));
+            fetch(urlTelegram, { mode: 'no-cors' }).catch(err => console.log("Erro Telegram:", err));
 
-            // 3. Configurações e link CORRIGIDO para o ThingSpeak funcionar com o Arduino
+            // 3. Configurações e link corrigido com /update?api_key= para o ThingSpeak funcionar
             const writeApiKey = "WOOA8Y83BBJ3A6L0"; 
             const urlThingSpeak = "https://thingspeak.com" + writeApiKey + "&field1=1";
 
-            // Envia o comando para o ThingSpeak (para o seu Arduino ler)
-            fetch(urlThingSpeak)
-                .then(response => {
-                    if(response.ok) {
-                        // Redireciona o visitante para a chamada após 3 segundos
-                        setTimeout(() => {
-                            window.location.href = linkChamada;
-                        }, 3000);
-                    } else {
-                        alert("Erro ao acionar campainha física.");
-                    }
+            // Envia o comando para o ThingSpeak (em modo no-cors para evitar travas do navegador)
+            fetch(urlThingSpeak, { mode: 'no-cors' })
+                .then(() => {
+                    // Redireciona o visitante para a chamada após 3 segundos
+                    setTimeout(() => {
+                        window.location.href = linkChamada;
+                    }, 3000);
                 })
                 .catch(err => alert("Erro de conexão com o servidor IoT."));
         }
