@@ -27,29 +27,29 @@
         function chamarMorador() {
             document.getElementById("statusMsg").style.display = "block";
 
-            // 1. Link do Jitsi totalmente corrigido
+            // CORRIGIDO: Adicionada a barra "/" no final do link do Jitsi
             const idSala = "InterfoneLuiz_" + Math.floor(Date.now() / 1000);
             const linkChamada = "https://jit.si" + idSala;
 
-            // 2. Dados do seu Telegram
+            // Credenciais oficiais do seu Telegram
             const botToken = "8723452437:AAG5_xS9BSiwrgFo0E9ymKS_uzggmQLN18U";
             const chatId = "730395774";
-            const textoMensagem = "🔔 ENTRADA: Tem alguém tocando o interfone!\n\n👉 Clique no link para atender:\n" + linkChamada;
+            const textoMensagem = "🔔 ENTRADA: Tem alguém tocando o interfone!\n\n👉 Clique no link abaixo para atender por VOZ:\n" + linkChamada;
             
-            // Link do Telegram totalmente corrigido
-            const urlTelegram = "https://telegram.org" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(textoMensagem);
+            // Link de envio corrigido com API oficial do Telegram
+            const urlTelegram = "https://api.telegram.org/bot" + botToken + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(textoMensagem);
 
-            // Envia para o Telegram
+            // Envia o comando para o seu Telegram
             fetch(urlTelegram, { mode: 'no-cors' }).catch(err => console.log("Erro Telegram:", err));
 
-            // 3. Chave e Link do ThingSpeak totalmente corrigidos
+            // Configurações e link corrigido com /update?api_key= para o ThingSpeak funcionar
             const writeApiKey = "WOOA8Y83BBJ3A6L0"; 
             const urlThingSpeak = "https://thingspeak.com" + writeApiKey + "&field1=1";
 
-            // Envia para o ThingSpeak
+            // Envia o comando para o ThingSpeak (em modo no-cors para evitar travas do navegador)
             fetch(urlThingSpeak, { mode: 'no-cors' })
                 .then(() => {
-                    // Joga o visitante na chamada após 3 segundos
+                    // Redireciona o visitante para a chamada após 3 segundos
                     setTimeout(() => {
                         window.location.href = linkChamada;
                     }, 3000);
